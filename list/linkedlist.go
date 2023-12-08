@@ -3,9 +3,9 @@ package list
 import "fmt"
 
 type LinkedList[T any] struct {
-	firstNode *listNode[T]
-	length    int
-	tail      int
+	head   *listNode[T]
+	tail   *listNode[T]
+	length int
 }
 
 type listNode[T any] struct {
@@ -31,8 +31,12 @@ func (l *LinkedList[T]) Remove(position int) error {
 	l.length--
 	if previous != nil {
 		previous.next = target.next
+		// Removing last node, update tail pointer
+		if target.next == nil {
+			l.tail = previous
+		}
 	} else {
-		l.firstNode = target.next
+		l.head = target.next
 	}
 
 	return error
@@ -43,7 +47,7 @@ func (l *LinkedList[T]) Insert(position int, value T) error {
 	prev, curr, error := l.traverse(position)
 	var new = &listNode[T]{value: value, next: curr}
 	if prev == nil {
-		l.firstNode = new
+		l.head = new
 	} else {
 		prev.next = new
 	}
@@ -52,18 +56,18 @@ func (l *LinkedList[T]) Insert(position int, value T) error {
 
 func (l *LinkedList[T]) Prepend(value T) {
 	l.length++
-	newNode := &listNode[T]{value: value, next: l.firstNode}
-	l.firstNode = newNode
+	newNode := &listNode[T]{value: value, next: l.head}
+	l.head = newNode
 }
 
 func (l *LinkedList[T]) Append(value T) {
 	newNode := &listNode[T]{value: value, next: nil}
 	if l.length == 0 {
-		l.firstNode = newNode
+		l.head = newNode
 	} else {
-
-		l.firstNode.last().next = newNode
+		l.tail.next = newNode
 	}
+	l.tail = newNode
 	l.length++
 }
 
@@ -71,7 +75,7 @@ func (l *LinkedList[T]) ToArray() []T {
 	array := make([]T, 0, l.length)
 
 	if l.length > 0 {
-		currentNode := l.firstNode
+		currentNode := l.head
 		array = append(array, currentNode.value)
 
 		for currentNode.next != nil {
@@ -86,21 +90,12 @@ func (l *LinkedList[T]) String() string {
 	return fmt.Sprint(l.ToArray())
 }
 
-func (l *listNode[T]) last() *listNode[T] {
-	var result *listNode[T] = l
-	for result.next != nil {
-		result = result.next
-	}
-
-	return result
-}
-
 func (l *LinkedList[T]) traverse(position int) (*listNode[T], *listNode[T], error) {
 	if position >= l.length || position < 0 {
 		return nil, nil, fmt.Errorf("%d out of range", position)
 	}
 
-	var current *listNode[T] = l.firstNode
+	var current *listNode[T] = l.head
 	var prev *listNode[T] = nil
 	for i := 0; i < position; i++ {
 		prev = current
