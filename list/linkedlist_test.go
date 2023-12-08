@@ -6,6 +6,33 @@ import (
 	"testing"
 )
 
+func TestGetStr(t *testing.T) {
+	type test[T any] struct {
+		input  []T
+		index  int
+		output T
+	}
+	inputStrArray := []string{"hello", "how", "you", "doing"}
+	tests := []test[string]{
+		{
+			input:  inputStrArray,
+			index:  1,
+			output: "how",
+		},
+	}
+	for _, test := range tests {
+		list := ToList(test.input)
+		result, err := list.Get(test.index)
+		if err != nil {
+			t.Error(err)
+		}
+		if result != test.output {
+			t.Errorf("Error, got %s expected %s", test.output, result)
+		}
+	}
+
+}
+
 func TestGet(t *testing.T) {
 	type test struct {
 		input  []int
@@ -200,7 +227,7 @@ func TestToArray(t *testing.T) {
 	}
 }
 func TestTraverse(t *testing.T) {
-	input := &LinkedList{}
+	input := &LinkedList[int]{}
 	input.Append(2)
 	input.Append(2)
 
