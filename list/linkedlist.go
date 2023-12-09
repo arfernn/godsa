@@ -13,14 +13,6 @@ type listNode[T any] struct {
 	next  *listNode[T]
 }
 
-func ToList[T any](input []T) *LinkedList[T] {
-	newList := &LinkedList[T]{}
-	for _, num := range input {
-		newList.Append(num)
-	}
-	return newList
-}
-
 func (l *LinkedList[T]) Get(position int) (T, error) {
 	_, target, error := l.traverse(position)
 	return target.value, error
@@ -60,15 +52,18 @@ func (l *LinkedList[T]) Prepend(value T) {
 	l.head = newNode
 }
 
-func (l *LinkedList[T]) Append(value T) {
-	newNode := &listNode[T]{value: value, next: nil}
-	if l.length == 0 {
-		l.head = newNode
-	} else {
-		l.tail.next = newNode
+func (l *LinkedList[T]) Append(values ...T) {
+	for _, val := range values {
+		newNode := &listNode[T]{value: val, next: nil}
+		if l.length == 0 {
+			l.head = newNode
+		} else {
+			l.tail.next = newNode
+		}
+		l.tail = newNode
+		l.length++
+
 	}
-	l.tail = newNode
-	l.length++
 }
 
 func (l *LinkedList[T]) ToArray() []T {

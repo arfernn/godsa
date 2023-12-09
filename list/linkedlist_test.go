@@ -21,7 +21,8 @@ func TestGetStr(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		list := ToList(test.input)
+		list := &LinkedList[string]{}
+		list.Append(test.input...)
 		result, err := list.Get(test.index)
 		if err != nil {
 			t.Error(err)
@@ -64,7 +65,8 @@ func TestGet(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		list := ToList(test.input)
+		list := &LinkedList[int]{}
+		list.Append(test.input...)
 		result, err := list.Get(test.index)
 		if err != nil {
 			t.Error(err)
@@ -109,7 +111,8 @@ func TestRemove(t *testing.T) {
 
 	for _, test := range tests {
 
-		linkedList := ToList(test.array)
+		linkedList := &LinkedList[int]{}
+		linkedList.Append(test.array...)
 
 		linkedList.Remove(test.position)
 		if !common.Equal(linkedList.ToArray(), test.output) {
@@ -145,8 +148,8 @@ func TestPrepend(t *testing.T) {
 	}
 
 	for _, test := range tests {
-
-		linkedList := ToList(test.array)
+		linkedList := &LinkedList[int]{}
+		linkedList.Append(test.array...)
 		linkedList.Prepend(test.toadd)
 
 		if !common.Equal(linkedList.ToArray(), test.output) {
@@ -191,8 +194,9 @@ func TestInsert(t *testing.T) {
 	}
 
 	for _, test := range tests {
+		linkedList := &LinkedList[int]{}
+		linkedList.Append(test.array...)
 
-		linkedList := ToList(test.array)
 		linkedList.Insert(test.position, test.toadd)
 
 		if !common.Equal(linkedList.ToArray(), test.output) {
@@ -218,8 +222,8 @@ func TestToArray(t *testing.T) {
 	}
 
 	for _, test := range tests {
-
-		linkedList := ToList(test.array)
+		linkedList := &LinkedList[int]{}
+		linkedList.Append(test.array...)
 
 		if !common.Equal(linkedList.ToArray(), test.array) {
 			t.Errorf("Error, %v not equal to %v", test.array, test.array)
@@ -265,7 +269,8 @@ func TestToString(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		list := ToList(test.input)
+		list := &LinkedList[int]{}
+		list.Append(test.input...)
 		result := fmt.Sprint(list)
 		if result != test.output {
 			t.Errorf("Error, expected %s got %s", test.output, result)
