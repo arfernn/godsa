@@ -21,7 +21,12 @@ func New[T any](inputs ...T) *LinkedList[T] {
 
 func (l *LinkedList[T]) Get(position int) (T, error) {
 	_, target, error := l.traverse(position)
-	return target.value, error
+
+	if error != nil {
+		return *new(T), error
+	}
+
+	return target.value, nil
 }
 
 func (l *LinkedList[T]) Remove(position int) error {
