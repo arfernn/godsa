@@ -2,7 +2,7 @@ package slinkedlist
 
 import (
 	"fmt"
-	"godsa/common"
+	"slices"
 	"testing"
 )
 
@@ -112,7 +112,7 @@ func TestRemove(t *testing.T) {
 		linkedList := New(test.array...)
 
 		linkedList.Remove(test.position)
-		if !common.Equal(linkedList.ToArray(), test.output) {
+		if !slices.Equal(linkedList.ToArray(), test.output) {
 			t.Errorf("Error, %v not equal to %v", test.array, test.output)
 		}
 	}
@@ -148,7 +148,7 @@ func TestPrepend(t *testing.T) {
 		linkedList := New(test.array...)
 		linkedList.Prepend(test.toadd)
 
-		if !common.Equal(linkedList.ToArray(), test.output) {
+		if !slices.Equal(linkedList.ToArray(), test.output) {
 			t.Errorf("Error, %v not equal to %v", linkedList.ToArray(), test.output)
 		}
 	}
@@ -194,7 +194,7 @@ func TestInsert(t *testing.T) {
 
 		linkedList.Insert(test.position, test.toadd)
 
-		if !common.Equal(linkedList.ToArray(), test.output) {
+		if !slices.Equal(linkedList.ToArray(), test.output) {
 			t.Errorf("Error, %v not equal to %v", linkedList.ToArray(), test.output)
 		}
 	}
@@ -219,7 +219,7 @@ func TestToArray(t *testing.T) {
 	for _, test := range tests {
 		linkedList := New(test.array...)
 
-		if !common.Equal(linkedList.ToArray(), test.array) {
+		if !slices.Equal(linkedList.ToArray(), test.array) {
 			t.Errorf("Error, %v not equal to %v", test.array, test.array)
 		}
 	}
