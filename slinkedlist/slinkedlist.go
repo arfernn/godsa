@@ -1,4 +1,4 @@
-package list
+package slinkedlist
 
 import "fmt"
 
@@ -11,6 +11,12 @@ type LinkedList[T any] struct {
 type listNode[T any] struct {
 	value T
 	next  *listNode[T]
+}
+
+func New[T any](inputs ...T) *LinkedList[T] {
+	tmp := &LinkedList[T]{}
+	tmp.Append(inputs...)
+	return tmp
 }
 
 func (l *LinkedList[T]) Get(position int) (T, error) {

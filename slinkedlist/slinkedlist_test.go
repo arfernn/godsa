@@ -1,4 +1,4 @@
-package list
+package slinkedlist
 
 import (
 	"fmt"
@@ -21,8 +21,7 @@ func TestGetStr(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		list := &LinkedList[string]{}
-		list.Append(test.input...)
+		list := New(test.input...)
 		result, err := list.Get(test.index)
 		if err != nil {
 			t.Error(err)
@@ -65,8 +64,7 @@ func TestGet(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		list := &LinkedList[int]{}
-		list.Append(test.input...)
+		list := New(test.input...)
 		result, err := list.Get(test.index)
 		if err != nil {
 			t.Error(err)
@@ -111,8 +109,7 @@ func TestRemove(t *testing.T) {
 
 	for _, test := range tests {
 
-		linkedList := &LinkedList[int]{}
-		linkedList.Append(test.array...)
+		linkedList := New(test.array...)
 
 		linkedList.Remove(test.position)
 		if !common.Equal(linkedList.ToArray(), test.output) {
@@ -148,8 +145,7 @@ func TestPrepend(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		linkedList := &LinkedList[int]{}
-		linkedList.Append(test.array...)
+		linkedList := New(test.array...)
 		linkedList.Prepend(test.toadd)
 
 		if !common.Equal(linkedList.ToArray(), test.output) {
@@ -194,8 +190,7 @@ func TestInsert(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		linkedList := &LinkedList[int]{}
-		linkedList.Append(test.array...)
+		linkedList := New(test.array...)
 
 		linkedList.Insert(test.position, test.toadd)
 
@@ -222,8 +217,7 @@ func TestToArray(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		linkedList := &LinkedList[int]{}
-		linkedList.Append(test.array...)
+		linkedList := New(test.array...)
 
 		if !common.Equal(linkedList.ToArray(), test.array) {
 			t.Errorf("Error, %v not equal to %v", test.array, test.array)
@@ -231,7 +225,7 @@ func TestToArray(t *testing.T) {
 	}
 }
 func TestTraverse(t *testing.T) {
-	input := &LinkedList[int]{}
+	input := New[int]()
 	input.Append(2)
 	input.Append(2)
 
@@ -269,8 +263,7 @@ func TestToString(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		list := &LinkedList[int]{}
-		list.Append(test.input...)
+		list := New(test.input...)
 		result := fmt.Sprint(list)
 		if result != test.output {
 			t.Errorf("Error, expected %s got %s", test.output, result)
