@@ -19,7 +19,6 @@ func New[T any](inputs ...T) *Queue[T] {
 
 func (q *Queue[T]) Push(inputs ...T) {
 	q.llist.Append(inputs...)
-	fmt.Println("hello")
 }
 
 func (q *Queue[T]) Pop() (T, error) {
