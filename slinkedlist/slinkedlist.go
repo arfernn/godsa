@@ -57,10 +57,12 @@ func (l *LinkedList[T]) Insert(position int, value T) error {
 	return error
 }
 
-func (l *LinkedList[T]) Prepend(value T) {
-	l.length++
-	newNode := &listNode[T]{value: value, next: l.head}
-	l.head = newNode
+func (l *LinkedList[T]) Prepend(values ...T) {
+	for _, val := range values {
+		l.length++
+		newNode := &listNode[T]{value: val, next: l.head}
+		l.head = newNode
+	}
 }
 
 func (l *LinkedList[T]) Append(values ...T) {

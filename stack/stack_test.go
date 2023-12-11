@@ -1,4 +1,4 @@
-package queue
+package stack
 
 import (
 	"slices"
@@ -16,7 +16,7 @@ func TestPush(t *testing.T) {
 	tests := []test{{
 		input:     2,
 		inputArr:  []int{1, 3, 4, 5, 6},
-		outputArr: []int{1, 3, 4, 5, 6, 2},
+		outputArr: []int{2, 6, 5, 4, 3, 1},
 	}, {
 		input:     2,
 		inputArr:  []int{},
@@ -24,28 +24,35 @@ func TestPush(t *testing.T) {
 	}}
 
 	for _, test := range tests {
-		queue := New(test.inputArr...)
+		stack := New(test.inputArr...)
 
-		queue.Push(test.input)
+		stack.Push(test.input)
 
-		if !slices.Equal(test.outputArr, queue.ToArray()) {
-			t.Errorf("Error, got %v expected %v", queue.ToArray(), test.outputArr)
+		if !slices.Equal(test.outputArr, stack.ToArray()) {
+			t.Errorf("Error, got %v expected %v", stack.ToArray(), test.outputArr)
 		}
 	}
 
 }
 
 func TestSinglePush(t *testing.T) {
-	testQueue := New([]int{}...)
-	testQueue.Push(1)
-	testQueue.Push(2)
-	testQueue.Push(3)
+	testStack := New([]int{}...)
+	testStack.Push(1)
+	testStack.Push(2)
+	testStack.Push(3)
 
-	val, _ := testQueue.Pop()
-	val, _ = testQueue.Pop()
-	val, _ = testQueue.Pop()
-
+	val, _ := testStack.Pop()
 	if val != 3 {
+		t.Errorf("Unexpected result %d", val)
+	}
+
+	val, _ = testStack.Pop()
+	if val != 2 {
+		t.Errorf("Unexpected result %d", val)
+	}
+
+	val, _ = testStack.Pop()
+	if val != 1 {
 		t.Errorf("Unexpected result %d", val)
 	}
 }
@@ -57,16 +64,16 @@ func TestPeek(t *testing.T) {
 	}
 	tests := []test{{
 		inputArr: []int{1, 3, 4, 5, 6},
-		output:   1,
+		output:   6,
 	}, {
 		inputArr: []int{},
 		output:   0,
 	}}
 
 	for _, test := range tests {
-		queue := New(test.inputArr...)
+		stack := New(test.inputArr...)
 
-		val, _ := queue.Peek()
+		val, _ := stack.Peek()
 
 		if val != test.output {
 			t.Errorf("Error, got %d expected %d", test.output, val)
@@ -87,16 +94,17 @@ func TestPop(t *testing.T) {
 	}}
 
 	for _, test := range tests {
-		queue := New(test.input...)
+		stack := New(test.input...)
 		temp := []int{}
 		for {
-			val, err := queue.Pop()
+			val, err := stack.Pop()
 			if err != nil {
 				break
 			}
 			temp = append(temp, val)
 		}
 
+		slices.Reverse(test.input)
 		if !slices.Equal(temp, test.input) {
 			t.Errorf("Error, got %v expected %v", temp, test.input)
 		}
